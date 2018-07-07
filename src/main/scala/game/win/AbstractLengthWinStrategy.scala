@@ -1,13 +1,13 @@
 package game.win
 
-import game.Player
+import game.player.PlayerId
 
 import scala.util.control.Breaks._
 
 abstract class AbstractLengthWinStrategy(expectedLength: Int) extends WinStrategy {
 
-  protected def findWinnerInFlattenedBoard(cellPlayers: Seq[Option[Player]]): Option[Player] = {
-    var player: Option[Player] = None
+  protected def findWinnerInFlattenedBoard(cellPlayers: Seq[Option[PlayerId]]): Option[PlayerId] = {
+    var player: Option[PlayerId] = None
     var length = 0
 
     breakable {
@@ -25,10 +25,10 @@ abstract class AbstractLengthWinStrategy(expectedLength: Int) extends WinStrateg
     player
   }
 
-  private def checkCell(currentPlayer: Option[Player], cellPlayer: Option[Player], length: Int): (Option[Player], Int) =
+  private def checkCell(currentPlayer: Option[PlayerId], cellPlayer: Option[PlayerId], length: Int): (Option[PlayerId], Int) =
     if (currentPlayer == cellPlayer) (currentPlayer, length + 1)
     else if (cellPlayer.nonEmpty) (cellPlayer, 1)
-    else (Option.empty[Player], 0)
+    else (Option.empty[PlayerId], 0)
 
 
 }

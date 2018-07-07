@@ -1,14 +1,15 @@
 package game.win
 
-import game.{Board, Player}
+import game.Board
+import game.player.PlayerId
 
 
 trait WinStrategy {
 
-  def findWinner(board: Board): Option[Player]
+  def findWinner(board: Board): Option[PlayerId]
 
   def or(anotherStrategy: WinStrategy): WinStrategy = (board: Board) => {
-    val thisResult: Option[Player] = WinStrategy.this.findWinner(board)
+    val thisResult: Option[PlayerId] = WinStrategy.this.findWinner(board)
     if (thisResult.nonEmpty) thisResult
     else anotherStrategy.findWinner(board)
   }

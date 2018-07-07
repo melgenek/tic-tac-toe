@@ -1,7 +1,7 @@
 package game
 
-import game.Board.StepError.{AlreadyOccupiedError, WrongPointError}
-import game.Player._
+import game.player.PlayerId
+import game.player.PlayerId._
 import org.scalatest.{FlatSpec, Matchers}
 
 class BoardSpec extends FlatSpec with Matchers {
@@ -85,8 +85,8 @@ class BoardSpec extends FlatSpec with Matchers {
 
   private trait Wiring {
     val board = new Board()
-    val firstPlayer: Player = 1.toPlayer
-    val secondPlayer: Player = 2.toPlayer
+    val firstPlayer: PlayerId = 1.toPlayerId
+    val secondPlayer: PlayerId = 2.toPlayerId
   }
 
 }
