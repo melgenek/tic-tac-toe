@@ -42,21 +42,28 @@ class BoardSpec extends FlatSpec with Matchers {
   }
 
   "step" should "occupy the board cell with player" in new Wiring {
-    board.step(firstPlayer, (0, 2))
+    val updatedBoard: Board = board.step(firstPlayer, (0, 2)).right.get
 
-    board.cell(0, 2) should be(Some(firstPlayer))
+    updatedBoard.cell(0, 2) should be(Some(firstPlayer))
+  }
+
+  it should "not modify original board" in new Wiring {
+    val updatedBoard: Board = board.step(firstPlayer, (0, 2)).right.get
+
+    updatedBoard.cell(0, 2) should be(Some(firstPlayer))
+    board.cell(0, 2) should be(None)
   }
 
   it should "not allow to occupy the cell for the same user" in new Wiring {
-    board.step(firstPlayer, (0, 2))
+    val updatedBoard: Board = board.step(firstPlayer, (0, 2)).right.get
 
-    board.step(firstPlayer, (0, 2)) should be(Left(AlreadyOccupiedError()))
+    updatedBoard.step(firstPlayer, (0, 2)) should be(Left(AlreadyOccupiedError()))
   }
 
   it should "not allow to occupy the cell for another user" in new Wiring {
-    board.step(firstPlayer, (0, 2))
+    val updatedBoard: Board = board.step(firstPlayer, (0, 2)).right.get
 
-    board.step(secondPlayer, (0, 2)) should be(Left(AlreadyOccupiedError()))
+    updatedBoard.step(secondPlayer, (0, 2)) should be(Left(AlreadyOccupiedError()))
   }
 
   it should "not allow to occupy not existing cell" in new Wiring {

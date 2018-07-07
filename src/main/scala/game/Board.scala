@@ -3,12 +3,14 @@ package game
 import game.Board.StepError
 import game.Board.StepError.{AlreadyOccupiedError, WrongPointError}
 
-class Board(private val width: Int, private val height: Int) {
+case class Board private(width: Int, height: Int, board: Vector[Vector[Option[Player]]]) {
 
   assert(height >= 3 && height <= 10)
   assert(width >= 3 && width <= 10)
 
-  private val board: Array[Array[Player]] = Array.ofDim[Player](width, height)
+  def this(width: Int, height: Int) {
+    this(width, height, Vector.fill(width, height)(Option.empty[Player]))
+  }
 
   def this() {
     this(3, 3)
@@ -16,22 +18,22 @@ class Board(private val width: Int, private val height: Int) {
 
   def size: (Int, Int) = (width, height)
 
-  def cell(point: Point): Option[Player] =
-    Option(board(point.x)(point.y))
+  def cell(point: Point): Option[Player] = board(point.x)(point.y)
 
-  def step(player: Player, point: Point): Either[StepError, Unit] =
+  def step(player: Player, point: Point): Either[StepError, Board] =
     if (notValid(point)) Left(WrongPointError())
     else if (isOccupied(point)) Left(AlreadyOccupiedError())
     else {
-      board(point.x)(point.y) = player
-      Right()
+      val updatedRow: Vector[Option[Player]] = board(point.x).updated(point.y, Some(player))
+      val updatedBoard: Vector[Vector[Option[Player]]] = board.updated(point.x, updatedRow)
+      Right(copy(board = updatedBoard))
     }
 
   private def notValid(point: Point): Boolean =
     point.x < 0 || point.x >= width || point.y < 0 || point.y >= height
 
   private def isOccupied(point: Point): Boolean =
-    board(point.x)(point.y) != null
+    board(point.x)(point.y).nonEmpty
 
 }
 
