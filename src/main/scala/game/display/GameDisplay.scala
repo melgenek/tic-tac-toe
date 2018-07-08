@@ -1,7 +1,8 @@
 package game.display
 
 import game.player.PlayerId
-import game.{Board, StepError}
+import game.board.Board
+import game.error.StepError
 
 trait GameDisplay {
 

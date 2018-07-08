@@ -2,8 +2,9 @@ package game.display
 
 import java.io.{OutputStream, PrintWriter}
 
+import game.board.Board
+import game.error.{AlreadyOccupiedError, StepError, WrongPointError, WrongPointFormatError}
 import game.player.PlayerId
-import game.{AlreadyOccupiedError, Board, StepError, WrongPointError, WrongPointFormatError}
 
 class OutputStreamDisplay(out: OutputStream, playerChars: Map[PlayerId, Char]) extends GameDisplay {
 
@@ -32,7 +33,7 @@ class OutputStreamDisplay(out: OutputStream, playerChars: Map[PlayerId, Char]) e
     }
 
   override def displayWinner(id: PlayerId): Unit =
-    writeLine(s"Player #$id is the winner!")
+    writeLine(s"Player #$id('${playerChars(id)}') is the winner!")
 
   override def displayNoWinner(): Unit =
     writeLine("No winner :(")

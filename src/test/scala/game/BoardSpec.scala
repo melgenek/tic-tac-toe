@@ -1,5 +1,7 @@
 package game
 
+import game.board.Board
+import game.error.{AlreadyOccupiedError, StepError, WrongPointError}
 import game.player.PlayerId
 import game.player.PlayerId._
 import org.scalatest.{FlatSpec, Matchers}

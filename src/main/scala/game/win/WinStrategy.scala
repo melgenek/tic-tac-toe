@@ -1,6 +1,6 @@
 package game.win
 
-import game.Board
+import game.board.Board
 import game.player.PlayerId
 
 

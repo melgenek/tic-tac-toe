@@ -2,7 +2,9 @@ package game
 
 import java.io.ByteArrayOutputStream
 
+import game.board.Board
 import game.display.OutputStreamDisplay
+import game.error.{AlreadyOccupiedError, StepError}
 import game.player.PlayerId
 import game.player.PlayerId._
 import org.scalatest.{FlatSpec, Matchers}
@@ -18,7 +20,7 @@ class OutputStreamDisplaySpec extends FlatSpec with Matchers {
   "displayWinner" should "write winner message" in new Wiring {
     display.displayWinner(1.toPlayerId)
 
-    out.toString should be("Player #1 is the winner!\n")
+    out.toString should be("Player #1('X') is the winner!\n")
   }
 
   "displayNoWinner" should "write winner message" in new Wiring {

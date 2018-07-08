@@ -1,13 +1,15 @@
 package game
 
 import game.Game.CircularCounter
+import game.board.{Board, Point}
 import game.display.GameDisplay
+import game.error.{WrongPointError, WrongPointFormatError}
 import game.player.PlayerId._
 import game.player.{Player, PlayerId}
 import game.win.WinStrategy
 import org.mockito.InOrder
 import org.mockito.Matchers.any
-import org.mockito.Mockito.{verify, when, inOrder => ordered}
+import org.mockito.Mockito.{times, verify, when, inOrder => ordered}
 import org.scalatest.mockito.MockitoSugar
 import org.scalatest.{FlatSpec, Matchers}
 
@@ -59,6 +61,7 @@ class GameSpec extends FlatSpec with Matchers with MockitoSugar {
 
     game.play()
 
+    verify(gameDisplay, times(2)).displayBoard(any())
     verify(gameDisplay).displayNoWinner()
   }
 

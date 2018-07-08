@@ -1,13 +1,13 @@
 package game.win
 
-import game.Board
+import game.board.Board
 import game.player.PlayerId
 
 import scala.collection.immutable
 import scala.util.control.Breaks._
 
 
-class TwoInColumnWinStrategy extends AbstractLengthWinStrategy(2) {
+class ThreeInColumnWinStrategy extends AbstractLengthWinStrategy(3) {
 
   override def findWinner(board: Board): Option[PlayerId] = {
     val (width, height) = board.size

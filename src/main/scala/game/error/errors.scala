@@ -1,4 +1,4 @@
-package game
+package game.error
 
 sealed trait StepError
 

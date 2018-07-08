@@ -2,7 +2,8 @@ package game.player
 
 import java.io.InputStream
 
-import game.{Board, Point, StepError, WrongPointFormatError}
+import game.board.{Board, Point}
+import game.error.{StepError, WrongPointFormatError}
 
 import scala.io.Source
 import scala.util.Try

@@ -1,7 +1,9 @@
 package game
 
 import game.Game.CircularCounter
+import game.board.Board
 import game.display.GameDisplay
+import game.error.StepError
 import game.player.{Player, PlayerId}
 import game.win.WinStrategy
 
@@ -36,8 +38,9 @@ class Game(board: Board,
           counter = counter.inc
         case Left(error) => gameDisplay.displayError(error)
       }
-    } while (winner.isEmpty && board.hasSpace)
+    } while (winner.isEmpty && gameBoard.hasSpace)
 
+    gameDisplay.displayBoard(gameBoard)
     winner match {
       case Some(winnerId) => gameDisplay.displayWinner(winnerId)
       case None => gameDisplay.displayNoWinner()

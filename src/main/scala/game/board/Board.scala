@@ -1,5 +1,6 @@
-package game
+package game.board
 
+import game.error.{AlreadyOccupiedError, StepError, WrongPointError}
 import game.player.PlayerId
 
 case class Board private(width: Int, height: Int, board: Vector[Vector[Option[PlayerId]]]) {

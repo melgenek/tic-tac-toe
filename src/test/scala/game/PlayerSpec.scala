@@ -2,6 +2,8 @@ package game
 
 import java.io.ByteArrayInputStream
 
+import game.board.{Board, Point}
+import game.error.WrongPointFormatError
 import game.player.{AiPlayer, InputStreamPlayer, PlayerId}
 import org.scalatest.{FlatSpec, Matchers}
 import game.player.PlayerId._

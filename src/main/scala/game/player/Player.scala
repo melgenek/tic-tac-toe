@@ -1,6 +1,7 @@
 package game.player
 
-import game.{Board, Point, StepError}
+import game.board.{Board, Point}
+import game.error.StepError
 
 trait Player {
 
