@@ -1,6 +1,8 @@
 package game.player
 
-case class PlayerId(id: Int)
+case class PlayerId(id: Int){
+  override def toString: String = id.toString
+}
 
 object PlayerId {
 
