@@ -42,51 +42,71 @@ class BoardSpec extends FlatSpec with Matchers {
   }
 
   "step" should "occupy the board cell with player" in new Wiring {
-    val updatedBoard: Board = board.step(firstPlayer, (0, 2)).right.get
+    val updatedBoard: Board = board.step(player1, (0, 2)).right.get
 
-    updatedBoard.cell(0, 2) should be(Some(firstPlayer))
+    updatedBoard.cell(0, 2) should be(Some(player1))
   }
 
   it should "not modify original board" in new Wiring {
-    val updatedBoard: Board = board.step(firstPlayer, (0, 2)).right.get
+    val updatedBoard: Board = board.step(player1, (0, 2)).right.get
 
-    updatedBoard.cell(0, 2) should be(Some(firstPlayer))
+    updatedBoard.cell(0, 2) should be(Some(player1))
     board.cell(0, 2) should be(None)
   }
 
   it should "not allow to occupy the cell for the same user" in new Wiring {
-    val updatedBoard: Board = board.step(firstPlayer, (0, 2)).right.get
+    val updatedBoard: Board = board.step(player1, (0, 2)).right.get
 
-    updatedBoard.step(firstPlayer, (0, 2)) should be(Left(AlreadyOccupiedError()))
+    updatedBoard.step(player1, (0, 2)) should be(Left(AlreadyOccupiedError()))
   }
 
   it should "not allow to occupy the cell for another user" in new Wiring {
-    val updatedBoard: Board = board.step(firstPlayer, (0, 2)).right.get
+    val updatedBoard: Board = board.step(player1, (0, 2)).right.get
 
-    updatedBoard.step(secondPlayer, (0, 2)) should be(Left(AlreadyOccupiedError()))
+    updatedBoard.step(player2, (0, 2)) should be(Left(AlreadyOccupiedError()))
   }
 
   it should "not allow to occupy not existing cell" in new Wiring {
-    board.step(firstPlayer, (-1, 2)) should be(Left(WrongPointError()))
-    board.step(firstPlayer, (2, -1)) should be(Left(WrongPointError()))
-    board.step(firstPlayer, (-1, -1)) should be(Left(WrongPointError()))
+    board.step(player1, (-1, 2)) should be(Left(WrongPointError()))
+    board.step(player1, (2, -1)) should be(Left(WrongPointError()))
+    board.step(player1, (-1, -1)) should be(Left(WrongPointError()))
 
-    board.step(firstPlayer, (100, 2)) should be(Left(WrongPointError()))
-    board.step(firstPlayer, (2, 100)) should be(Left(WrongPointError()))
-    board.step(firstPlayer, (100, 100)) should be(Left(WrongPointError()))
+    board.step(player1, (100, 2)) should be(Left(WrongPointError()))
+    board.step(player1, (2, 100)) should be(Left(WrongPointError()))
+    board.step(player1, (100, 100)) should be(Left(WrongPointError()))
 
-    board.step(firstPlayer, (100, -1)) should be(Left(WrongPointError()))
-    board.step(firstPlayer, (-1, 100)) should be(Left(WrongPointError()))
+    board.step(player1, (100, -1)) should be(Left(WrongPointError()))
+    board.step(player1, (-1, 100)) should be(Left(WrongPointError()))
   }
 
   "cell" should "return nothing when cell is not occupied" in new Wiring {
     board.cell(0, 2) should be(None)
   }
 
+  "hasSpace" should "be true when there are empty cells" in new Wiring {
+    board.hasSpace should be(true)
+  }
+
+  it should "be false when there are no empty cells" in new Wiring {
+    val updatedBoard: Either[StepError, Board] = for {
+      board <- board.step(player1, (0, 0))
+      board <- board.step(player1, (1, 0))
+      board <- board.step(player1, (2, 0))
+      board <- board.step(player1, (0, 1))
+      board <- board.step(player1, (1, 1))
+      board <- board.step(player1, (2, 1))
+      board <- board.step(player1, (0, 2))
+      board <- board.step(player1, (1, 2))
+      board <- board.step(player1, (2, 2))
+    } yield board
+
+    updatedBoard.right.get.hasSpace should be(false)
+  }
+
   private trait Wiring {
     val board = new Board()
-    val firstPlayer: PlayerId = 1.toPlayerId
-    val secondPlayer: PlayerId = 2.toPlayerId
+    val player1: PlayerId = 1.toPlayerId
+    val player2: PlayerId = 2.toPlayerId
   }
 
 }

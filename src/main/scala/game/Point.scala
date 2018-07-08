@@ -1,5 +1,7 @@
 package game
 
+import scala.language.implicitConversions
+
 case class Point(x: Int, y: Int)
 
 object Point {

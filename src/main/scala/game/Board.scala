@@ -17,6 +17,8 @@ case class Board private(width: Int, height: Int, board: Vector[Vector[Option[Pl
 
   def size: (Int, Int) = (width, height)
 
+  def hasSpace: Boolean = board.flatten.exists(_.isEmpty)
+
   def cell(point: Point): Option[PlayerId] = board(point.x)(point.y)
 
   def step(player: PlayerId, point: Point): Either[StepError, Board] =
